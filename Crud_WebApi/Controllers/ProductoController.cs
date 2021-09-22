@@ -36,23 +36,27 @@ namespace Crud_WebApi.Controllers
         }
 
         [HttpPost("CreateProduct")]
-        public async Task<int> Create(ProductoDto producto)
+        public async Task<ActionResult> Create(ProductoDto producto)
         {
-            return await _productoService.AddProducto(producto);
+            var result = await _productoService.AddProducto(producto);
+            if (result == 1) return Ok(); else return NotFound(); 
         }
 
         // PUT api/<ProductoController>/5
         [HttpPost("Update")]
-        public async Task<int> Update([FromBody] ProductoDto producto)
+        public async Task<ActionResult> Update([FromBody] ProductoDto producto)
         {
-            return await _productoService.UpdateProducto(producto);
+            var result = await _productoService.UpdateProducto(producto);
+            if (result == 1) return Ok(); else return NotFound();
+            
         }
 
         // DELETE api/<ProductoController>/5
         [HttpDelete("Delete/{id}")]
-        public async Task<int> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return await _productoService.DeleteProducto(id);
+            var result = await _productoService.DeleteProducto(id);
+            if (result == 1) return Ok(); else return NotFound();
         }
     }
 }

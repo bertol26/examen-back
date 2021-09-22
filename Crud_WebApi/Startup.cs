@@ -14,6 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
+using FluentValidation.AspNetCore;
+using Crud_WebApi.DTO;
+using FluentValidation;
 
 namespace Crud_WebApi
 {
@@ -30,6 +33,12 @@ namespace Crud_WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(setup => {
+                //...mvc setup...
+            }).AddFluentValidation();
+
+            services.AddTransient<IValidator<ProductoDto>, ProductValidator>();
+
             services.AddCors(o => o.AddPolicy(AllowAllOriginsPolicy, builder =>
             {
                 builder.AllowAnyOrigin()
