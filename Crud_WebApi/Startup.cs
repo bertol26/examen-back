@@ -1,22 +1,16 @@
 using Crud_WebApi.Repositories.Interfaces;
 using Crud_WebApi.Repositories.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Crud_WebApi.Services.Interfaces;
 using Crud_WebApi.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
-using FluentValidation.AspNetCore;
-using Crud_WebApi.DTO;
-using FluentValidation;
+using Crud_WebApi.Context;
 
 namespace Crud_WebApi
 {
@@ -33,11 +27,7 @@ namespace Crud_WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(setup => {
-                //...mvc setup...
-            }).AddFluentValidation();
-
-            services.AddTransient<IValidator<ProductoDto>, ProductValidator>();
+            services.AddDbContext<DbContextExamen>(options => options.UseSqlServer(Configuration["prueba:cn"]));
 
             services.AddCors(o => o.AddPolicy(AllowAllOriginsPolicy, builder =>
             {
@@ -49,9 +39,13 @@ namespace Crud_WebApi
             services.AddControllers();
             AddSwagger(services);
 
-            services.AddScoped<IProductoService, ProductoService>();
+            services.AddScoped<IAlumnoService, AlumnoService>();
+            services.AddScoped<ICursoService, CursoService>();
+            services.AddScoped<INotasService, NotasService>();
 
-            services.AddTransient<IProductoRepository, ProductoRepository>();
+            services.AddTransient<IAlumnoRepository, AlumnoRepository>();
+            services.AddTransient<ICursoRepository, CursoRepository>();
+            services.AddTransient<INotasRepository, NotasRepository>();
         }
         private void AddSwagger(IServiceCollection services)
         {

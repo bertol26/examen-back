@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Crud_WebApi.Models
 {
-    public class Producto
+    public class Alumno
     {
+        [Key]
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public decimal? Precio { get; set; }
-        public int Stock { get; set; }
-        public DateTime? FechaRegistro { get; set; }
+        public string Apellidos { get; set; }
+        public string Nombres { get; set; }
+        public string FechaNacimiento { get; set; }
+        public string Sexo { get; set; }
     }
 }
